@@ -54,5 +54,6 @@ func main() {
 
 	nums := []int{1, 2, 3, 4}
 	fmt.Println(nums, sum(nums...))
+	fmt.Println(nums, cap(nums))
 	return
 }

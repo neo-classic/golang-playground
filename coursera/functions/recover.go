@@ -13,11 +13,11 @@ func deferTest() {
 	defer func() {
 		if err := recover(); err != nil {
 			fmt.Println("panic happend SECOND:", err)
-			// panic("second panic")
+			panic("second panic")
 		}
 	}()
 	fmt.Println("Some userful work")
-	panic("something bad happend")
+	panic("PANIC")
 	return
 }
 

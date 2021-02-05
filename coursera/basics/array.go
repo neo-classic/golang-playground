@@ -17,7 +17,8 @@ func main() {
 
 	// определение размера при объявлении
 	a3 := [...]int{1, 2, 3}
-	fmt.Println("a2", a3)
+	fmt.Println("a3", a3)
+	fmt.Printf("a3 full %#v\n", a3)
 
 	// проверка при компиляции или при выполнении
 	// invalid array index 4 (out of bounds for 3-element array)

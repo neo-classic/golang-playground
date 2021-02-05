@@ -37,4 +37,7 @@ func main() {
 	var bufLen, bufCap int = len(buf), cap(buf)
 
 	fmt.Println(bufLen, bufCap)
+
+	buf = append(buf, 1, 4, 22)
+	fmt.Println(len(buf), cap(buf))
 }

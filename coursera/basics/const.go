@@ -9,7 +9,7 @@ const (
 )
 const (
 	zero = iota
-	_    // пустая переменная, пропуск iota
+	_    = 2 * iota // пустая переменная, пропуск iota
 	two
 	three // = 3
 )
@@ -25,10 +25,21 @@ const (
 	yearTyped int = 2017
 )
 
+const (
+	c1 = iota
+	c2 = 2*iota + 1
+	c3
+	c4
+	c5
+)
+
 func main() {
 	var month int32 = 13
 	fmt.Println(month + year)
 
+	fmt.Println("zero, two, three: ", zero, two, three)
+
+	fmt.Println("c1 c2 c3 c4 c5", c1, c2, c3, c4, c5)
 	// month + yearTyped (mismatched types int32 and int)
 	// fmt.Println( month + yearTyped )
 }

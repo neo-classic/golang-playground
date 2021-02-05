@@ -63,4 +63,9 @@ func main() {
 		fmt.Printf("%#U at pos %d\n", char, pos)
 	}
 
+	str = "Hello world!"
+	for pos, char := range str {
+		fmt.Printf("%#U at pos %d\n", char, pos)
+	}
+
 }

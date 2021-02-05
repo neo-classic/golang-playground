@@ -8,6 +8,7 @@ func main() {
 		"name":     "Vasily",
 		"lastName": "Romanov",
 	}
+	fmt.Println(user)
 
 	// сразу с нужной ёмкостью
 	profile := make(map[string]string, 10)
@@ -32,4 +33,22 @@ func main() {
 	// удаление ключа
 	delete(user, "lastName")
 	fmt.Printf("%#v\n", user)
+
+	fmt.Println("===========================")
+
+	testMap := map[string]string{
+		"first_name": "Yuriy",
+		"last_name":  "Bel",
+		"wife":       "Mary",
+		"child1":     "Vasilisa",
+		"child2":     "ALex",
+	}
+
+	for key, val := range testMap {
+		fmt.Println("key =", key, ", val =", val)
+	}
+
+	if _, isDogNameExists := testMap["dog"]; !isDogNameExists {
+		fmt.Println("Not exists")
+	}
 }

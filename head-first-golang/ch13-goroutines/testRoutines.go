@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"runtime"
-	"time"
 )
 
 func printString(s string, times int) {
@@ -11,6 +10,10 @@ func printString(s string, times int) {
 		fmt.Print(s)
 		runtime.Gosched()
 	}
+}
+
+func doSome(ch chan string, str string) {
+	ch <- str
 }
 
 func main() {
@@ -21,11 +24,23 @@ func main() {
 		"d",
 	}
 
+	ch := make(chan string)
+
 	for _, s := range strs {
-		go printString(s, 10)
+		go doSome(ch, s)
 	}
 
-	time.Sleep(1 * time.Second)
+	fmt.Println(<-ch)
+	fmt.Println(<-ch)
+	fmt.Println(<-ch)
+	fmt.Println(<-ch)
+	//
+	//for _, s := range strs {
+	//	go printString(s, 10)
+	//}
+	//
+	//time.Sleep(1 * time.Second)
+	//
+	//fmt.Println("")
 
-	fmt.Println("")
 }

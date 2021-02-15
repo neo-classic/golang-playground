@@ -1,5 +1,3 @@
 #!/bin/bash
 
-protoc greet/greetpb/greet.proto --go_out=plugins=grpc:.
-protoc calculator/calculatorpb/calculator.proto --go_out=plugins=grpc:.
-protoc blog/blogpb/blog.proto --go_out=plugins=grpc:.
+protoc --proto_path=greet --go_out=greet --go-grpc_out=greet --go_opt=paths=source_relative greet/greetpb/greet.proto

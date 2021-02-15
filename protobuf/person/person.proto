@@ -1,0 +1,10 @@
+// protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative person.proto
+
+syntax = "proto3";
+
+option go_package = "github.com/neo-classic/golang-playground/protobuf/person";
+
+message Person {
+  uint64 id = 1;
+  string email = 2;
+}

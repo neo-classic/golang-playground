@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package calc;
+option go_package = "calc/calcpb";
+
+message Calc {
+  double num1 = 1;
+  double num2 = 2;
+  string operation = 3;
+}
+
+message CalcRequest {
+  Calc calc = 1;
+}
+
+message CalcResponse {
+  double result = 1;
+}
+
+service CalcService {
+  rpc DoCalc(CalcRequest) returns (CalcResponse) {};
+}

@@ -7,6 +7,7 @@ import (
 	"google.golang.org/grpc"
 	"log"
 	"net"
+	"time"
 )
 
 type server struct {
@@ -35,6 +36,28 @@ func (*server) DoCalc(ctx context.Context, req *calcpb.CalcRequest) (*calcpb.Cal
 	}
 
 	return res, nil
+}
+
+func (*server) PrimeNumber(req *calcpb.PrimeNumberRequest, stream calcpb.CalcService_PrimeNumberServer) error {
+	n := req.GetNum().GetNum()
+	var k int64 = 2
+
+	for n > 1 {
+		if n%k == 0 {
+			sendNumber(k, stream)
+			n = n / k
+		} else {
+			k = k + 1
+		}
+		time.Sleep(1000 * time.Millisecond)
+	}
+
+	return nil
+}
+
+func sendNumber(k int64, stream calcpb.CalcService_PrimeNumberServer) {
+	res := &calcpb.PrimeNumberResponse{Result: k}
+	stream.Send(res)
 }
 
 func main() {

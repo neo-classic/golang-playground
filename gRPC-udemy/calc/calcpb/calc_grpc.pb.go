@@ -19,6 +19,8 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type CalcServiceClient interface {
 	DoCalc(ctx context.Context, in *CalcRequest, opts ...grpc.CallOption) (*CalcResponse, error)
+	// Server Streaming
+	PrimeNumber(ctx context.Context, in *PrimeNumberRequest, opts ...grpc.CallOption) (CalcService_PrimeNumberClient, error)
 }
 
 type calcServiceClient struct {
@@ -38,11 +40,45 @@ func (c *calcServiceClient) DoCalc(ctx context.Context, in *CalcRequest, opts ..
 	return out, nil
 }
 
+func (c *calcServiceClient) PrimeNumber(ctx context.Context, in *PrimeNumberRequest, opts ...grpc.CallOption) (CalcService_PrimeNumberClient, error) {
+	stream, err := c.cc.NewStream(ctx, &CalcService_ServiceDesc.Streams[0], "/calc.CalcService/PrimeNumber", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &calcServicePrimeNumberClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type CalcService_PrimeNumberClient interface {
+	Recv() (*PrimeNumberResponse, error)
+	grpc.ClientStream
+}
+
+type calcServicePrimeNumberClient struct {
+	grpc.ClientStream
+}
+
+func (x *calcServicePrimeNumberClient) Recv() (*PrimeNumberResponse, error) {
+	m := new(PrimeNumberResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // CalcServiceServer is the server API for CalcService service.
 // All implementations must embed UnimplementedCalcServiceServer
 // for forward compatibility
 type CalcServiceServer interface {
 	DoCalc(context.Context, *CalcRequest) (*CalcResponse, error)
+	// Server Streaming
+	PrimeNumber(*PrimeNumberRequest, CalcService_PrimeNumberServer) error
 	mustEmbedUnimplementedCalcServiceServer()
 }
 
@@ -52,6 +88,9 @@ type UnimplementedCalcServiceServer struct {
 
 func (UnimplementedCalcServiceServer) DoCalc(context.Context, *CalcRequest) (*CalcResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DoCalc not implemented")
+}
+func (UnimplementedCalcServiceServer) PrimeNumber(*PrimeNumberRequest, CalcService_PrimeNumberServer) error {
+	return status.Errorf(codes.Unimplemented, "method PrimeNumber not implemented")
 }
 func (UnimplementedCalcServiceServer) mustEmbedUnimplementedCalcServiceServer() {}
 
@@ -84,6 +123,27 @@ func _CalcService_DoCalc_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CalcService_PrimeNumber_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(PrimeNumberRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(CalcServiceServer).PrimeNumber(m, &calcServicePrimeNumberServer{stream})
+}
+
+type CalcService_PrimeNumberServer interface {
+	Send(*PrimeNumberResponse) error
+	grpc.ServerStream
+}
+
+type calcServicePrimeNumberServer struct {
+	grpc.ServerStream
+}
+
+func (x *calcServicePrimeNumberServer) Send(m *PrimeNumberResponse) error {
+	return x.ServerStream.SendMsg(m)
+}
+
 // CalcService_ServiceDesc is the grpc.ServiceDesc for CalcService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -96,6 +156,12 @@ var CalcService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _CalcService_DoCalc_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "PrimeNumber",
+			Handler:       _CalcService_PrimeNumber_Handler,
+			ServerStreams: true,
+		},
+	},
 	Metadata: "calc/calcpb/calc.proto",
 }

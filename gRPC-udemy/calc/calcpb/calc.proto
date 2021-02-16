@@ -17,6 +17,21 @@ message CalcResponse {
   double result = 1;
 }
 
+message Number {
+  int64 num = 1;
+}
+
+message PrimeNumberRequest {
+  Number num = 1;
+}
+
+message PrimeNumberResponse {
+  int64 result = 1;
+}
+
 service CalcService {
   rpc DoCalc(CalcRequest) returns (CalcResponse) {};
+
+  // Server Streaming
+  rpc PrimeNumber(PrimeNumberRequest) returns (stream PrimeNumberResponse) {};
 }

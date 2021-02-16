@@ -182,6 +182,147 @@ func (x *CalcResponse) GetResult() float64 {
 	return 0
 }
 
+type Number struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Num int64 `protobuf:"varint,1,opt,name=num,proto3" json:"num,omitempty"`
+}
+
+func (x *Number) Reset() {
+	*x = Number{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_calc_calcpb_calc_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Number) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Number) ProtoMessage() {}
+
+func (x *Number) ProtoReflect() protoreflect.Message {
+	mi := &file_calc_calcpb_calc_proto_msgTypes[3]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Number.ProtoReflect.Descriptor instead.
+func (*Number) Descriptor() ([]byte, []int) {
+	return file_calc_calcpb_calc_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *Number) GetNum() int64 {
+	if x != nil {
+		return x.Num
+	}
+	return 0
+}
+
+type PrimeNumberRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Num *Number `protobuf:"bytes,1,opt,name=num,proto3" json:"num,omitempty"`
+}
+
+func (x *PrimeNumberRequest) Reset() {
+	*x = PrimeNumberRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_calc_calcpb_calc_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *PrimeNumberRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PrimeNumberRequest) ProtoMessage() {}
+
+func (x *PrimeNumberRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_calc_calcpb_calc_proto_msgTypes[4]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PrimeNumberRequest.ProtoReflect.Descriptor instead.
+func (*PrimeNumberRequest) Descriptor() ([]byte, []int) {
+	return file_calc_calcpb_calc_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *PrimeNumberRequest) GetNum() *Number {
+	if x != nil {
+		return x.Num
+	}
+	return nil
+}
+
+type PrimeNumberResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Result int64 `protobuf:"varint,1,opt,name=result,proto3" json:"result,omitempty"`
+}
+
+func (x *PrimeNumberResponse) Reset() {
+	*x = PrimeNumberResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_calc_calcpb_calc_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *PrimeNumberResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PrimeNumberResponse) ProtoMessage() {}
+
+func (x *PrimeNumberResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_calc_calcpb_calc_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PrimeNumberResponse.ProtoReflect.Descriptor instead.
+func (*PrimeNumberResponse) Descriptor() ([]byte, []int) {
+	return file_calc_calcpb_calc_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *PrimeNumberResponse) GetResult() int64 {
+	if x != nil {
+		return x.Result
+	}
+	return 0
+}
+
 var File_calc_calcpb_calc_proto protoreflect.FileDescriptor
 
 var file_calc_calcpb_calc_proto_rawDesc = []byte{
@@ -197,12 +338,25 @@ var file_calc_calcpb_calc_proto_rawDesc = []byte{
 	0x2e, 0x43, 0x61, 0x6c, 0x63, 0x52, 0x04, 0x63, 0x61, 0x6c, 0x63, 0x22, 0x26, 0x0a, 0x0c, 0x43,
 	0x61, 0x6c, 0x63, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x16, 0x0a, 0x06, 0x72,
 	0x65, 0x73, 0x75, 0x6c, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x01, 0x52, 0x06, 0x72, 0x65, 0x73,
-	0x75, 0x6c, 0x74, 0x32, 0x40, 0x0a, 0x0b, 0x43, 0x61, 0x6c, 0x63, 0x53, 0x65, 0x72, 0x76, 0x69,
-	0x63, 0x65, 0x12, 0x31, 0x0a, 0x06, 0x44, 0x6f, 0x43, 0x61, 0x6c, 0x63, 0x12, 0x11, 0x2e, 0x63,
-	0x61, 0x6c, 0x63, 0x2e, 0x43, 0x61, 0x6c, 0x63, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a,
-	0x12, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x2e, 0x43, 0x61, 0x6c, 0x63, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x0d, 0x5a, 0x0b, 0x63, 0x61, 0x6c, 0x63, 0x2f, 0x63, 0x61,
-	0x6c, 0x63, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x75, 0x6c, 0x74, 0x22, 0x1a, 0x0a, 0x06, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x12, 0x10, 0x0a,
+	0x03, 0x6e, 0x75, 0x6d, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x03, 0x6e, 0x75, 0x6d, 0x22,
+	0x34, 0x0a, 0x12, 0x50, 0x72, 0x69, 0x6d, 0x65, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1e, 0x0a, 0x03, 0x6e, 0x75, 0x6d, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x0b, 0x32, 0x0c, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x2e, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72,
+	0x52, 0x03, 0x6e, 0x75, 0x6d, 0x22, 0x2d, 0x0a, 0x13, 0x50, 0x72, 0x69, 0x6d, 0x65, 0x4e, 0x75,
+	0x6d, 0x62, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x16, 0x0a, 0x06,
+	0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x06, 0x72, 0x65,
+	0x73, 0x75, 0x6c, 0x74, 0x32, 0x88, 0x01, 0x0a, 0x0b, 0x43, 0x61, 0x6c, 0x63, 0x53, 0x65, 0x72,
+	0x76, 0x69, 0x63, 0x65, 0x12, 0x31, 0x0a, 0x06, 0x44, 0x6f, 0x43, 0x61, 0x6c, 0x63, 0x12, 0x11,
+	0x2e, 0x63, 0x61, 0x6c, 0x63, 0x2e, 0x43, 0x61, 0x6c, 0x63, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x1a, 0x12, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x2e, 0x43, 0x61, 0x6c, 0x63, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x46, 0x0a, 0x0b, 0x50, 0x72, 0x69, 0x6d, 0x65,
+	0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x12, 0x18, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x2e, 0x50, 0x72,
+	0x69, 0x6d, 0x65, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x1a, 0x19, 0x2e, 0x63, 0x61, 0x6c, 0x63, 0x2e, 0x50, 0x72, 0x69, 0x6d, 0x65, 0x4e, 0x75, 0x6d,
+	0x62, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x30, 0x01, 0x42,
+	0x0d, 0x5a, 0x0b, 0x63, 0x61, 0x6c, 0x63, 0x2f, 0x63, 0x61, 0x6c, 0x63, 0x70, 0x62, 0x62, 0x06,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -217,21 +371,27 @@ func file_calc_calcpb_calc_proto_rawDescGZIP() []byte {
 	return file_calc_calcpb_calc_proto_rawDescData
 }
 
-var file_calc_calcpb_calc_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_calc_calcpb_calc_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_calc_calcpb_calc_proto_goTypes = []interface{}{
-	(*Calc)(nil),         // 0: calc.Calc
-	(*CalcRequest)(nil),  // 1: calc.CalcRequest
-	(*CalcResponse)(nil), // 2: calc.CalcResponse
+	(*Calc)(nil),                // 0: calc.Calc
+	(*CalcRequest)(nil),         // 1: calc.CalcRequest
+	(*CalcResponse)(nil),        // 2: calc.CalcResponse
+	(*Number)(nil),              // 3: calc.Number
+	(*PrimeNumberRequest)(nil),  // 4: calc.PrimeNumberRequest
+	(*PrimeNumberResponse)(nil), // 5: calc.PrimeNumberResponse
 }
 var file_calc_calcpb_calc_proto_depIdxs = []int32{
 	0, // 0: calc.CalcRequest.calc:type_name -> calc.Calc
-	1, // 1: calc.CalcService.DoCalc:input_type -> calc.CalcRequest
-	2, // 2: calc.CalcService.DoCalc:output_type -> calc.CalcResponse
-	2, // [2:3] is the sub-list for method output_type
-	1, // [1:2] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	3, // 1: calc.PrimeNumberRequest.num:type_name -> calc.Number
+	1, // 2: calc.CalcService.DoCalc:input_type -> calc.CalcRequest
+	4, // 3: calc.CalcService.PrimeNumber:input_type -> calc.PrimeNumberRequest
+	2, // 4: calc.CalcService.DoCalc:output_type -> calc.CalcResponse
+	5, // 5: calc.CalcService.PrimeNumber:output_type -> calc.PrimeNumberResponse
+	4, // [4:6] is the sub-list for method output_type
+	2, // [2:4] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_calc_calcpb_calc_proto_init() }
@@ -276,6 +436,42 @@ func file_calc_calcpb_calc_proto_init() {
 				return nil
 			}
 		}
+		file_calc_calcpb_calc_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Number); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_calc_calcpb_calc_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*PrimeNumberRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_calc_calcpb_calc_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*PrimeNumberResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -283,7 +479,7 @@ func file_calc_calcpb_calc_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_calc_calcpb_calc_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   3,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

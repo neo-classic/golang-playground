@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/neo-classic/golang-playground/gRPC-udemy/calc/calcpb"
 	"google.golang.org/grpc"
+	"io"
 	"log"
 )
 
@@ -18,7 +19,9 @@ func main() {
 	defer conn.Close()
 
 	c := calcpb.NewCalcServiceClient(conn)
-	callCalc(c)
+	//callCalc(c)
+
+	callPrimeNumber(c)
 }
 
 func callCalc(c calcpb.CalcServiceClient) {
@@ -40,4 +43,30 @@ func callCalc(c calcpb.CalcServiceClient) {
 	}
 
 	fmt.Printf("%.2f %s %.2f = %.2f\n", num1, operation, num2, res.Result)
+}
+
+func callPrimeNumber(c calcpb.CalcServiceClient) {
+	var num int64 = 120
+
+	req := &calcpb.PrimeNumberRequest{
+		Num: &calcpb.Number{
+			Num: num,
+		},
+	}
+
+	resStream, err := c.PrimeNumber(context.Background(), req)
+	if err != nil {
+		log.Fatalf("Error while connecting to PrimeNumber: %v", err)
+	}
+
+	for {
+		res, err := resStream.Recv()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			log.Fatalf("Error while reading stream: %v", err)
+		}
+		log.Printf("Response from PrimeNumbers: %v", res.GetResult())
+	}
 }

@@ -27,7 +27,7 @@ func wrapError(err error, message string) error {
 	return errors.Wrapf(err, "[task_repo] %s", message)
 }
 
-func New(hostPort, dbName, user, pwd, collection string) (*MongoTaskRepository, error) {
+func NewTaskRepository(hostPort, dbName, user, pwd, collection string) (*MongoTaskRepository, error) {
 	connString := fmt.Sprintf("mongodb://%s:%s@%s/%s", user, pwd, hostPort, dbName)
 	if user == "" {
 		connString = fmt.Sprintf("mongodb://%s/%s", hostPort, dbName)
@@ -102,4 +102,24 @@ func (m *MongoTaskRepository) GetByGUID(ctx context.Context, guid domain.TaskGUI
 	}
 
 	return task, nil
+}
+
+func (m *MongoTaskRepository) Delete(ctx context.Context, guid domain.TaskGUID) error {
+	deleteResult, err := m.client.Database(m.dbName).Collection(m.collName).DeleteOne(ctx, bson.M{"guid": guid})
+	if err != nil {
+		return wrapError(err, "fail delete task")
+	}
+	if deleteResult.DeletedCount != 1 {
+		return wrapError(errors.New("task not found"), "")
+	}
+
+	return nil
+}
+
+func (m *MongoTaskRepository) DeleteAll(ctx context.Context) error {
+	_, err := m.client.Database(m.dbName).Collection(m.collName).DeleteMany(ctx, bson.M{})
+	if err != nil {
+		return wrapError(err, "fail delete all tasks")
+	}
+	return nil
 }

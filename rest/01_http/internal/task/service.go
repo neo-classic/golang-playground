@@ -11,10 +11,18 @@ type Repository interface {
 	Create(ctx context.Context, task *domain.Task) error
 	Fetch(ctx context.Context) ([]*domain.Task, error)
 	GetByGUID(ctx context.Context, guid domain.TaskGUID) (*domain.Task, error)
+	Delete(ctx context.Context, guid domain.TaskGUID) error
+	DeleteAll(ctx context.Context) error
 }
 
 type Service struct {
 	repo Repository
+}
+
+func NewTaskService(r Repository) *Service {
+	return &Service{
+		repo: r,
+	}
 }
 
 func (s *Service) Create(ctx context.Context, task domain.Task) (*domain.Task, error) {
@@ -42,4 +50,22 @@ func (s *Service) GetByGUID(ctx context.Context, guid domain.TaskGUID) (*domain.
 	}
 
 	return task, nil
+}
+
+func (s *Service) Delete(ctx context.Context, guid domain.TaskGUID) error {
+	err := s.repo.Delete(ctx, guid)
+	if err != nil {
+		return errors.Wrap(err, "[task_service] delete error")
+	}
+
+	return nil
+}
+
+func (s *Service) DeleteAll(ctx context.Context) error {
+	err := s.repo.DeleteAll(ctx)
+	if err != nil {
+		return errors.Wrap(err, "[task_service] delete all error")
+	}
+
+	return nil
 }

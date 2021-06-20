@@ -113,11 +113,22 @@ func (h *TaskHTTP) getAllTasks(w http.ResponseWriter, req *http.Request) {
 }
 
 func (h *TaskHTTP) deleteAllTasks(w http.ResponseWriter, req *http.Request) {
-
+	log.Printf("handling delete all tasks at %s\n", req.URL.Path)
+	ctx := context.Background()
+	err := h.service.DeleteAll(ctx)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
 }
 
 func (h *TaskHTTP) deleteTask(w http.ResponseWriter, req *http.Request, guid string) {
+	log.Printf("handling delete task at %s\n", req.URL.Path)
+	ctx := context.Background()
 
+	err := h.service.Delete(ctx, domain.TaskGUID(guid))
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusNotFound)
+	}
 }
 
 func (h *TaskHTTP) getTask(w http.ResponseWriter, req *http.Request, guid string) {

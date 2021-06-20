@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/neo-classic/golang-playground/rest/01_http/domain"
+	"gopkg.in/go-playground/validator.v9"
 )
 
 type TaskService interface {
@@ -14,12 +15,14 @@ type TaskService interface {
 }
 
 type TaskHTTP struct {
-	service TaskService
+	service  TaskService
+	validate *validator.Validate
 }
 
-func NewTaskHTTP(service TaskService) {
+func NewTaskHTTP(s TaskService, v *validator.Validate) {
 	h := &TaskHTTP{
-		service: service,
+		service:  s,
+		validate: v,
 	}
 
 	mux := http.NewServeMux()

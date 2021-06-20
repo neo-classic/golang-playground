@@ -7,10 +7,10 @@ import (
 )
 
 type Task struct {
-	GUID TaskGUID  `json:"guid"`
-	Text string    `json:"text"`
-	Tags []string  `json:"tags"`
-	Due  time.Time `json:"due"`
+	GUID TaskGUID
+	Text string
+	Tags []string
+	Due  time.Time
 }
 
 type TaskGUID string

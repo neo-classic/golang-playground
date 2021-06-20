@@ -52,6 +52,7 @@ func (h *TaskHTTP) taskHandler(w http.ResponseWriter, req *http.Request) {
 func (h *TaskHTTP) createTask(w http.ResponseWriter, req *http.Request) {
 	log.Printf("handling task create at %s\n", req.URL.Path)
 	ctx := context.Background()
+	input := createTaskRequest{}
 
 	contentType := req.Header.Get("Content-Type")
 	mediatype, _, err := mime.ParseMediaType(contentType)
@@ -66,19 +67,24 @@ func (h *TaskHTTP) createTask(w http.ResponseWriter, req *http.Request) {
 
 	dec := json.NewDecoder(req.Body)
 	dec.DisallowUnknownFields()
-	var t domain.Task
-	if err := dec.Decode(&t); err != nil {
+	if err := dec.Decode(&input); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
-	task, err := h.service.Create(ctx, t)
+	if err := h.validate.Struct(input); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	t := mapCreateRequestToDomain(&input)
+	task, err := h.service.Create(ctx, *t)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	js, err := json.Marshal(task)
+	js, err := json.Marshal(mapDomainToReply(task))
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -97,7 +103,7 @@ func (h *TaskHTTP) getAllTasks(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	js, err := json.Marshal(allTasks)
+	js, err := json.Marshal(mapDomainsToReply(allTasks))
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -124,7 +130,7 @@ func (h *TaskHTTP) getTask(w http.ResponseWriter, req *http.Request, guid string
 		return
 	}
 
-	js, err := json.Marshal(task)
+	js, err := json.Marshal(mapDomainToReply(task))
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

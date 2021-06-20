@@ -29,3 +29,8 @@ Patterns playground
 
 ## protobuf
 Protocol Buffer examples
+
+## rest
+### 01_http
+Based on https://eli.thegreenplace.net/2021/rest-servers-in-go-part-7-graphql/
+But restructured and modified in terms of DDD/CleanArch

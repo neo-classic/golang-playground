@@ -4,7 +4,7 @@ import (
 	"log"
 
 	taskRepository "github.com/neo-classic/golang-playground/rest/01_http/adapters/repository/task"
-	"github.com/neo-classic/golang-playground/rest/01_http/api/task/http"
+	http2 "github.com/neo-classic/golang-playground/rest/01_http/api/http"
 	cfg "github.com/neo-classic/golang-playground/rest/01_http/config"
 	"github.com/neo-classic/golang-playground/rest/01_http/internal/task"
 	"gopkg.in/go-playground/validator.v9"
@@ -29,5 +29,5 @@ func main() {
 	log.Printf("[APP] task service loaded")
 
 	v := validator.New()
-	http.NewTaskHTTP(taskService, v, config)
+	http2.NewTaskHTTP(taskService, v, config)
 }

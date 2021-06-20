@@ -13,3 +13,9 @@ GET http://localhost:8080/task/
 Accept: */*
 Cache-Control: no-cache
 Content-Type: application/json
+
+###
+GET http://localhost:8080/tag/one
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json

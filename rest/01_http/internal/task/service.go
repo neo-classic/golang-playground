@@ -2,14 +2,16 @@ package task
 
 import (
 	"context"
+	"fmt"
 
+	"github.com/neo-classic/golang-playground/rest/01_http/adapters/repository/task"
 	"github.com/neo-classic/golang-playground/rest/01_http/domain"
 	"github.com/pkg/errors"
 )
 
 type Repository interface {
 	Create(ctx context.Context, task *domain.Task) error
-	Fetch(ctx context.Context) ([]*domain.Task, error)
+	Fetch(ctx context.Context, filter task.Filter) ([]*domain.Task, error)
 	GetByGUID(ctx context.Context, guid domain.TaskGUID) (*domain.Task, error)
 	Delete(ctx context.Context, guid domain.TaskGUID) error
 	DeleteAll(ctx context.Context) error
@@ -36,7 +38,8 @@ func (s *Service) Create(ctx context.Context, task domain.Task) (*domain.Task, e
 }
 
 func (s *Service) Fetch(ctx context.Context) ([]*domain.Task, error) {
-	tasks, err := s.repo.Fetch(ctx)
+	var filter task.Filter
+	tasks, err := s.repo.Fetch(ctx, filter)
 	if err != nil {
 		return nil, errors.Wrap(err, "[task_service] fetch error")
 	}
@@ -68,4 +71,24 @@ func (s *Service) DeleteAll(ctx context.Context) error {
 	}
 
 	return nil
+}
+
+func (s *Service) FetchByTag(ctx context.Context, tag string) ([]*domain.Task, error) {
+	var filter task.Filter
+	filter.Tag = tag
+	tasks, err := s.repo.Fetch(ctx, filter)
+	if err != nil {
+		return nil, errors.Wrap(err, "[task_service] fetch error")
+	}
+	return tasks, nil
+}
+
+func (s *Service) FetchByDueDate(ctx context.Context, y, m, d int) ([]*domain.Task, error) {
+	var filter task.Filter
+	filter.DueDate = fmt.Sprintf("%d-%d-%d", y, m, d)
+	tasks, err := s.repo.Fetch(ctx, filter)
+	if err != nil {
+		return nil, errors.Wrap(err, "[task_service] fetch error")
+	}
+	return tasks, nil
 }

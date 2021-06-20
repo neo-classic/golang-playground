@@ -97,13 +97,13 @@ func (h *TaskHTTP) getAllTasks(w http.ResponseWriter, req *http.Request) {
 	log.Printf("handling get all tasks at %s\n", req.URL.Path)
 	ctx := context.Background()
 
-	allTasks, err := h.service.Fetch(ctx)
+	tasks, err := h.service.Fetch(ctx)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	js, err := json.Marshal(mapDomainsToReply(allTasks))
+	js, err := json.Marshal(mapDomainsToReply(tasks))
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

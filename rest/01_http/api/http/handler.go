@@ -14,6 +14,8 @@ import (
 type TaskService interface {
 	Create(ctx context.Context, task domain.Task) (*domain.Task, error)
 	Fetch(ctx context.Context) ([]*domain.Task, error)
+	FetchByTag(ctx context.Context, tag string) ([]*domain.Task, error)
+	FetchByDueDate(ctx context.Context, y, m, d int) ([]*domain.Task, error)
 	GetByGUID(ctx context.Context, guid domain.TaskGUID) (*domain.Task, error)
 	Delete(ctx context.Context, guid domain.TaskGUID) error
 	DeleteAll(ctx context.Context) error
@@ -34,6 +36,8 @@ func NewTaskHTTP(s TaskService, v *validator.Validate, cfg *config.Config) {
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/task/", h.taskHandler)
+	mux.HandleFunc("/tag/", h.tagHandler)
+	mux.HandleFunc("/due/", h.dueHandler)
 
 	log.Fatal(http.ListenAndServe(fmt.Sprintf("localhost:%d", cfg.Server.Port), mux))
 }

@@ -1,8 +1,9 @@
 package http
 
 import (
-	"github.com/neo-classic/golang-playground/rest/01_http/domain"
 	"time"
+
+	"github.com/neo-classic/golang-playground/rest/01_http/domain"
 )
 
 type createTaskRequest struct {

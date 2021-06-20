@@ -63,15 +63,15 @@ func (m *MongoTaskRepository) Create(ctx context.Context, task *domain.Task) err
 	return nil
 }
 
-func (m *MongoTaskRepository) Fetch(ctx context.Context) ([]*domain.Task, error) {
+func (m *MongoTaskRepository) Fetch(ctx context.Context, filter Filter) ([]*domain.Task, error) {
 	var res []*domain.Task
 
-	filter := bson.M{}
+	filters := decodeFilter(filter)
 
 	findOptions := options.Find()
 	findOptions.SetSort(bson.D{{"_id", -1}})
 
-	cur, err := m.client.Database(m.dbName).Collection(m.collName).Find(ctx, filter, findOptions)
+	cur, err := m.client.Database(m.dbName).Collection(m.collName).Find(ctx, filters, findOptions)
 	if err != nil {
 		return nil, wrapError(err, "fail to fetch tasks")
 	}

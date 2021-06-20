@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"log"
 	"mime"
 	"net/http"
 	"strings"
@@ -50,8 +49,8 @@ func (h *TaskHTTP) taskHandler(w http.ResponseWriter, req *http.Request) {
 }
 
 func (h *TaskHTTP) createTask(w http.ResponseWriter, req *http.Request) {
-	log.Printf("handling task create at %s\n", req.URL.Path)
 	ctx := context.Background()
+	h.log.Info(ctx, fmt.Sprintf("handling task create at %s\n", req.URL.Path))
 	input := createTaskRequest{}
 
 	contentType := req.Header.Get("Content-Type")
@@ -94,8 +93,8 @@ func (h *TaskHTTP) createTask(w http.ResponseWriter, req *http.Request) {
 }
 
 func (h *TaskHTTP) getAllTasks(w http.ResponseWriter, req *http.Request) {
-	log.Printf("handling get all tasks at %s\n", req.URL.Path)
 	ctx := context.Background()
+	h.log.Info(ctx, fmt.Sprintf("handling get all tasks at %s\n", req.URL.Path))
 
 	tasks, err := h.service.Fetch(ctx)
 	if err != nil {
@@ -113,8 +112,8 @@ func (h *TaskHTTP) getAllTasks(w http.ResponseWriter, req *http.Request) {
 }
 
 func (h *TaskHTTP) deleteAllTasks(w http.ResponseWriter, req *http.Request) {
-	log.Printf("handling delete all tasks at %s\n", req.URL.Path)
 	ctx := context.Background()
+	h.log.Info(ctx, fmt.Sprintf("handling delete all tasks at %s\n", req.URL.Path))
 	err := h.service.DeleteAll(ctx)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -122,8 +121,8 @@ func (h *TaskHTTP) deleteAllTasks(w http.ResponseWriter, req *http.Request) {
 }
 
 func (h *TaskHTTP) deleteTask(w http.ResponseWriter, req *http.Request, guid string) {
-	log.Printf("handling delete task at %s\n", req.URL.Path)
 	ctx := context.Background()
+	h.log.Info(ctx, fmt.Sprintf("handling delete task at %s\n", req.URL.Path))
 
 	err := h.service.Delete(ctx, domain.TaskGUID(guid))
 	if err != nil {
@@ -132,8 +131,8 @@ func (h *TaskHTTP) deleteTask(w http.ResponseWriter, req *http.Request, guid str
 }
 
 func (h *TaskHTTP) getTask(w http.ResponseWriter, req *http.Request, guid string) {
-	log.Printf("handling get task at %s\n", req.URL.Path)
 	ctx := context.Background()
+	h.log.Info(ctx, fmt.Sprintf("handling get task at %s\n", req.URL.Path))
 
 	task, err := h.service.GetByGUID(ctx, domain.TaskGUID(guid))
 	if err != nil {

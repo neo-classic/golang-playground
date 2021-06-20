@@ -3,7 +3,6 @@ package http
 import (
 	"context"
 	"fmt"
-	"log"
 	"net/http"
 
 	"github.com/neo-classic/golang-playground/rest/01_http/config"
@@ -21,17 +20,25 @@ type TaskService interface {
 	DeleteAll(ctx context.Context) error
 }
 
+type Logger interface {
+	Debug(ctx context.Context, msg string)
+	Info(ctx context.Context, msg string)
+	Error(ctx context.Context, msg string)
+}
+
 type TaskHTTP struct {
 	service  TaskService
 	validate *validator.Validate
 	cfg      *config.Config
+	log      Logger
 }
 
-func NewTaskHTTP(s TaskService, v *validator.Validate, cfg *config.Config) {
+func NewTaskHTTP(ctx context.Context, s TaskService, v *validator.Validate, cfg *config.Config, log Logger) {
 	h := &TaskHTTP{
 		service:  s,
 		validate: v,
 		cfg:      cfg,
+		log:      log,
 	}
 
 	mux := http.NewServeMux()
@@ -39,5 +46,6 @@ func NewTaskHTTP(s TaskService, v *validator.Validate, cfg *config.Config) {
 	mux.HandleFunc("/tag/", h.tagHandler)
 	mux.HandleFunc("/due/", h.dueHandler)
 
-	log.Fatal(http.ListenAndServe(fmt.Sprintf("localhost:%d", cfg.Server.Port), mux))
+	err := http.ListenAndServe(fmt.Sprintf("localhost:%d", cfg.Server.Port), mux)
+	h.log.Error(ctx, err.Error())
 }

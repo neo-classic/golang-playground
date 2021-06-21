@@ -10,7 +10,7 @@ import (
 
 func (h *TaskHTTP) tagHandler(w http.ResponseWriter, req *http.Request) {
 	ctx := context.Background()
-	h.log.Info(ctx, fmt.Sprintf("handling tasks by tag at %s\n", req.URL.Path))
+	h.log.Info(fmt.Sprintf("handling tasks by tag at %s\n", req.URL.Path))
 
 	if req.Method != http.MethodGet {
 		http.Error(w, fmt.Sprintf("expect method GET /tag/<tag>, got %v", req.Method), http.StatusMethodNotAllowed)

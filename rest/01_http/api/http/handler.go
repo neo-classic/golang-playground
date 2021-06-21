@@ -21,9 +21,9 @@ type TaskService interface {
 }
 
 type Logger interface {
-	Debug(ctx context.Context, msg string)
-	Info(ctx context.Context, msg string)
-	Error(ctx context.Context, msg string)
+	Debug(msg string)
+	Info(msg string)
+	Error(msg string)
 }
 
 type TaskHTTP struct {
@@ -47,5 +47,5 @@ func NewTaskHTTP(ctx context.Context, s TaskService, v *validator.Validate, cfg 
 	mux.HandleFunc("/due/", h.dueHandler)
 
 	err := http.ListenAndServe(fmt.Sprintf("localhost:%d", cfg.Server.Port), mux)
-	h.log.Error(ctx, err.Error())
+	h.log.Error(err.Error())
 }

@@ -16,8 +16,7 @@ func main() {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	log := logger.Logger{}
-	log.Init(logger.Dev)
+	log := logger.NewLogger(logger.Dev)
 
 	config, err := cfg.GetConfigFromFile("config.yml")
 	if err != nil {

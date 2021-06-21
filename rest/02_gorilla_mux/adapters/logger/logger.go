@@ -15,11 +15,17 @@ const (
 	Dev  Mode = "dev"
 )
 
-type Logger struct{}
+type Logger struct {
+	log zerolog.Logger
+}
 
-var lgr zerolog.Logger
+func NewLogger(logMode Mode) *Logger {
+	var logger Logger
+	logger.Init(logMode)
+	return &logger
+}
 
-func (l Logger) Init(logMode Mode) {
+func (l *Logger) Init(logMode Mode) {
 	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
 	zerolog.DurationFieldUnit = time.Millisecond
 	zerolog.DurationFieldInteger = true
@@ -36,17 +42,17 @@ func (l Logger) Init(logMode Mode) {
 		break
 	}
 
-	lgr = zerolog.New(logWriter).With().Timestamp().Logger()
+	l.log = zerolog.New(logWriter).With().Timestamp().Logger()
 }
 
-func (l Logger) Debug(msg string) {
-	lgr.Debug().Msg(msg)
+func (l *Logger) Debug(msg string) {
+	l.log.Debug().Msg(msg)
 }
 
-func (l Logger) Info(msg string) {
-	lgr.Info().Msg(msg)
+func (l *Logger) Info(msg string) {
+	l.log.Info().Msg(msg)
 }
 
-func (l Logger) Error(msg string) {
-	lgr.Error().Msg(msg)
+func (l *Logger) Error(msg string) {
+	l.log.Error().Msg(msg)
 }

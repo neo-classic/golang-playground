@@ -1,0 +1,21 @@
+POST http://localhost:8080/task/
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{
+  "text": "rand text",
+  "tags": ["one", "two"]
+}
+
+###
+GET http://localhost:8080/task/
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+###
+GET http://localhost:8080/tag/one2
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json

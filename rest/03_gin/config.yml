@@ -1,0 +1,8 @@
+mongo:
+  host: "127.0.0.1:27017"
+  user: "task_user"
+  password: "task_pwd"
+  database: "task"
+
+server:
+  port: 8080

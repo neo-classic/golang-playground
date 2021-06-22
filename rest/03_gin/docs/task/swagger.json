@@ -1,0 +1,190 @@
+{
+    "schemes": [
+        "http"
+    ],
+    "swagger": "2.0",
+    "info": {
+        "description": "Gin playground",
+        "title": "Task API",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "API Support",
+            "url": "http://www.swagger.io/support",
+            "email": "support@swagger.io"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/",
+    "paths": {
+        "/due/{year}/{month}/{day}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Returns tasks by provided date",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "The year",
+                        "name": "year",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The month",
+                        "name": "month",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "The day",
+                        "name": "day",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/http.taskReply"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/tag/{tag}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Returns tasks by provided tag",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "The tag belongs to tasks",
+                        "name": "tag",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/http.taskReply"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/task": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Returns all tasks",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/http.taskReply"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Creates user",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/http.taskReply"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete all tasks"
+            }
+        },
+        "/task/{guid}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Returns a specific task",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "The GUID of the task",
+                        "name": "guid",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/http.taskReply"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete specified task",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "The GUID of the task",
+                        "name": "guid",
+                        "in": "path",
+                        "required": true
+                    }
+                ]
+            }
+        }
+    },
+    "definitions": {
+        "http.taskReply": {
+            "type": "object",
+            "properties": {
+                "due": {
+                    "type": "string"
+                },
+                "guid": {
+                    "type": "string"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "text": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

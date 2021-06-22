@@ -1,0 +1,125 @@
+basePath: /
+definitions:
+  http.taskReply:
+    properties:
+      due:
+        type: string
+      guid:
+        type: string
+      tags:
+        items:
+          type: string
+        type: array
+      text:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: Gin playground
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Task API
+  version: "1.0"
+paths:
+  /due/{year}/{month}/{day}:
+    get:
+      parameters:
+      - description: The year
+        in: path
+        name: year
+        required: true
+        type: integer
+      - description: The month
+        in: path
+        name: month
+        required: true
+        type: integer
+      - description: The day
+        in: path
+        name: day
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/http.taskReply'
+            type: array
+      summary: Returns tasks by provided date
+  /tag/{tag}:
+    get:
+      parameters:
+      - description: The tag belongs to tasks
+        in: path
+        name: tag
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/http.taskReply'
+            type: array
+      summary: Returns tasks by provided tag
+  /task:
+    delete:
+      summary: Delete all tasks
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/http.taskReply'
+            type: array
+      summary: Returns all tasks
+    post:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.taskReply'
+      summary: Creates user
+  /task/{guid}:
+    delete:
+      parameters:
+      - description: The GUID of the task
+        in: path
+        name: guid
+        required: true
+        type: string
+      summary: Delete specified task
+    get:
+      parameters:
+      - description: The GUID of the task
+        in: path
+        name: guid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.taskReply'
+      summary: Returns a specific task
+schemes:
+- http
+swagger: "2.0"

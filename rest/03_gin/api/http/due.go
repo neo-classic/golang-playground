@@ -9,6 +9,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// dueHandler godoc
+// @Summary Returns tasks by provided date
+// @Produce json
+// @Success 200 {array} taskReply
+// @Param year path int true "The year"
+// @Param month path int true "The month"
+// @Param day path int true "The day"
+// @Router /due/{year}/{month}/{day} [get]
 func (h *TaskHTTP) dueHandler(c *gin.Context) {
 	ctx := context.Background()
 
@@ -41,5 +49,5 @@ func (h *TaskHTTP) dueHandler(c *gin.Context) {
 		c.String(http.StatusInternalServerError, err.Error())
 	}
 
-	c.JSON(http.StatusOK, tasks)
+	c.JSON(http.StatusOK, mapDomainsToReply(tasks))
 }

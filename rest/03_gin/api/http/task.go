@@ -8,6 +8,11 @@ import (
 	"github.com/neo-classic/golang-playground/rest/03_gin/domain"
 )
 
+// createTask godoc
+// @Summary Creates user
+// @Produce json
+// @Success 200 {object} taskReply
+// @Router /task [post]
 func (h *TaskHTTP) createTask(c *gin.Context) {
 	ctx := context.Background()
 	input := createTaskRequest{}
@@ -29,6 +34,11 @@ func (h *TaskHTTP) createTask(c *gin.Context) {
 	c.JSON(http.StatusOK, mapDomainToReply(task))
 }
 
+// getAllTasks godoc
+// @Summary Returns all tasks
+// @Produce json
+// @Success 200 {array} taskReply
+// @Router /task [get]
 func (h *TaskHTTP) getAllTasks(c *gin.Context) {
 	ctx := context.Background()
 
@@ -40,6 +50,9 @@ func (h *TaskHTTP) getAllTasks(c *gin.Context) {
 	c.JSON(http.StatusOK, mapDomainsToReply(tasks))
 }
 
+// getAllTasks godoc
+// @Summary Delete all tasks
+// @Router /task [delete]
 func (h *TaskHTTP) deleteAllTasks(c *gin.Context) {
 	ctx := context.Background()
 	err := h.service.DeleteAll(ctx)
@@ -48,6 +61,10 @@ func (h *TaskHTTP) deleteAllTasks(c *gin.Context) {
 	}
 }
 
+// deleteTask godoc
+// @Summary Delete specified task
+// @Param guid path string true "The GUID of the task"
+// @Router /task/{guid} [delete]
 func (h *TaskHTTP) deleteTask(c *gin.Context) {
 	ctx := context.Background()
 
@@ -58,6 +75,12 @@ func (h *TaskHTTP) deleteTask(c *gin.Context) {
 	}
 }
 
+// getTask godoc
+// @Summary Returns a specific task
+// @Produce json
+// @Param guid path string true "The GUID of the task"
+// @Success 200 {object} taskReply
+// @Router /task/{guid} [get]
 func (h *TaskHTTP) getTask(c *gin.Context) {
 	ctx := context.Background()
 

@@ -3,6 +3,7 @@ package http
 import (
 	"context"
 	"fmt"
+	"github.com/neo-classic/golang-playground/rest/01_http/internal/middleware"
 	"net/http"
 
 	"github.com/neo-classic/golang-playground/rest/01_http/config"
@@ -46,6 +47,9 @@ func NewTaskHTTP(ctx context.Context, s TaskService, v *validator.Validate, cfg 
 	mux.HandleFunc("/tag/", h.tagHandler)
 	mux.HandleFunc("/due/", h.dueHandler)
 
-	err := http.ListenAndServe(fmt.Sprintf("localhost:%d", cfg.Server.Port), mux)
+	handler := middleware.Logging(mux)
+	handler = middleware.PanicRecovery(handler)
+
+	err := http.ListenAndServe(fmt.Sprintf("localhost:%d", cfg.Server.Port), handler)
 	h.log.Error(err.Error())
 }
